@@ -1,28 +1,33 @@
 package com.tiffany.pruebatecnica.modelo;
 
+import ch.qos.logback.core.net.server.Client;
+import com.tiffany.pruebatecnica.dto.ClienteDto;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.time.Instant;
+import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "clientes", schema = "app_prestamo")
-public class Cliente {
+public class Cliente implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "id_cliente", nullable = false)
     private Integer id;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_cliente", nullable = false)
-    private com.tiffany.pruebatecnica.modelo.Usuario usuarios;
+
+
 
     @Nationalized
     @Column(name = "numero_identificacion", nullable = false, length = 13)
@@ -37,7 +42,7 @@ public class Cliente {
     private String apellidoCliente;
 
     @Column(name = "fecha_nacimiento", nullable = false)
-    private Instant fechaNacimiento;
+    private Date fechaNacimiento;
 
     @Nationalized
     @Column(name = "correo_electronico", nullable = false, length = 100)
@@ -57,4 +62,18 @@ public class Cliente {
     @Column(name = "direccion_cliente", nullable = false, length = 500)
     private String direccionCliente;
 
+    public Cliente(Integer id, ClienteDto clienteDto) {
+        this.id = id;
+       this.numeroIdentificacion = clienteDto.getNumeroIdentificacion();
+       this.nombreCliente = clienteDto.getNombreCliente();
+       this.apellidoCliente = clienteDto.getApellidoCliente();
+       this.fechaNacimiento = clienteDto.getFechaNacimiento();
+       this.numeroTelefono = clienteDto.getNumeroTelefono();
+       this.departamento = clienteDto.getDepartamento();
+       this.municipio = clienteDto.getMunicipio();
+       this.direccionCliente = clienteDto.getDireccionCliente();
+       this.correoElectronico = clienteDto.getCorreoElectronico();
+
+
+    }
 }

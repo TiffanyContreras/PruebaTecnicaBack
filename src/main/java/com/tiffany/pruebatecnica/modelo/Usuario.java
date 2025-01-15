@@ -1,9 +1,6 @@
 package com.tiffany.pruebatecnica.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
@@ -17,6 +14,7 @@ import java.time.Instant;
 public class Usuario {
     @Id
     @Column(name = "id_usuario", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //genera un valor, usa misma serie que bd
     private Integer id;
 
     @Nationalized
@@ -41,4 +39,10 @@ public class Usuario {
     @Column(name = "usuario_modifica", length = 25)
     private String usuarioModifica;
 
+    public Usuario(String usernameUsuario, String passwordUsuario) {
+        this.usernameUsuario = usernameUsuario;
+        this.passwordUsuario = passwordUsuario;
+        this.fechaCreacion = Instant.now();
+        this.usuarioAgrega = "log_app_ms_prestamo";
+    }
 }
