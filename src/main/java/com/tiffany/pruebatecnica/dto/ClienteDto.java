@@ -48,4 +48,5 @@ public class ClienteDto extends UsuarioDto {
         return Objects.hash(numeroIdentificacion, nombreCliente, apellidoCliente, fechaNacimiento, correoElectronico, numeroTelefono, departamento, municipio, direccionCliente);
     }
 
+
 }

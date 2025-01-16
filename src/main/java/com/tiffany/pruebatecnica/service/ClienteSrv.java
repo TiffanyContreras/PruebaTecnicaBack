@@ -1,12 +1,17 @@
 package com.tiffany.pruebatecnica.service;
 
 import com.tiffany.pruebatecnica.dto.ClienteDto;
+import com.tiffany.pruebatecnica.dto.InformacionClienteProjection;
 import com.tiffany.pruebatecnica.modelo.Cliente;
 import com.tiffany.pruebatecnica.repository.ClienteRepository;
+import jakarta.persistence.Id;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -43,7 +48,38 @@ public void correoElectronicoEnUso(String correoElectronico) {
 
 
 }
+public List<InformacionClienteProjection> listarClientes() {
+    return clienteRepository.listaClienteRegistrado();
+
+}
+@Transactional (readOnly = false, rollbackFor = Exception.class)
+public void ActualizarCliente(ClienteDto clienteDto, Integer id) {
+    Cliente cliente = clienteRepository.findById(id).get();
+    cliente.setApellidoCliente(clienteDto.getApellidoCliente());
+    cliente.setNombreCliente(clienteDto.getNombreCliente());
+    cliente.setNumeroIdentificacion(clienteDto.getNumeroIdentificacion());
+    cliente.setNumeroTelefono(clienteDto.getNumeroTelefono());
+    cliente.setDireccionCliente(clienteDto.getDireccionCliente());
+    cliente.setCorreoElectronico(clienteDto.getCorreoElectronico());
+    cliente.setMunicipio(clienteDto.getMunicipio());
+    cliente.setDepartamento(clienteDto.getDepartamento());
 
 
 
+}
+
+public void eliminarCliente(Integer id) {
+    clienteRepository.deleteById(id);
+
+}
+
+public Cliente buscarClientePorId(Integer id) {
+    Optional<Cliente> cliente = clienteRepository.findById(id);
+    if(cliente.isPresent()) {
+        return cliente.get();
+
+    }else {
+        throw new RuntimeException("El cliente no existe");
+    }
+}
 }
