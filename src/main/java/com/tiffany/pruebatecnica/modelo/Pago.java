@@ -1,5 +1,6 @@
 package com.tiffany.pruebatecnica.modelo;
 
+import com.tiffany.pruebatecnica.dto.PagoDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.time.Instant;
 @Table(name = "pago", schema = "app_prestamo")
 public class Pago {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pago", nullable = false)
     private Integer id;
 
@@ -29,4 +31,10 @@ public class Pago {
     @Column(name = "fecha_pago")
     private Instant fechaPago;
 
+    public Pago(PagoDto pagoDto, Prestamo prestamo) {
+        this.abonoPago=pagoDto.getAbonoPrestamo();
+        this.fechaPago= Instant.now();
+        this.idPrestamo=prestamo;
+
+    }
 }

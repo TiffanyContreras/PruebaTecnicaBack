@@ -3,12 +3,14 @@ package com.tiffany.pruebatecnica.repository;
 
 import com.tiffany.pruebatecnica.dto.PrestamosAprobadosProjection;
 import com.tiffany.pruebatecnica.dto.SolicitudPrestamoProjection;
+import com.tiffany.pruebatecnica.modelo.Prestamo;
 import com.tiffany.pruebatecnica.modelo.PrestamosAprobado;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PrestamoAprobadoRepository extends CrudRepository<PrestamosAprobado, Integer> {
     @Query(value = "SELECT pa.id_cliente as idCliente,pa.id_prestamo as idPrestamo, c.numero_telefono  as numeroTelefono, c.nombre_cliente  as \n" +
@@ -20,5 +22,6 @@ public interface PrestamoAprobadoRepository extends CrudRepository<PrestamosApro
     public List<PrestamosAprobadosProjection> listaPrestamoAprobados ();
 
 
-
+    @Query(value="SELECT * From app_prestamo.prestamos_aprobados pa where pa.id_prestamo =:prestamo ", nativeQuery = true)
+    Optional<PrestamosAprobado> obtenerPrestamoAprobado(@Param("prestamo") Integer idPrestamo);
 }

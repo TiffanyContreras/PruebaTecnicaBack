@@ -10,7 +10,7 @@ public interface PrestamosAprobadosProjection {
     BigDecimal getMontoAprobado();
     BigDecimal getSaldoPendiente();
     Integer getCantidadPagos();
-    
+
 
 
 }
