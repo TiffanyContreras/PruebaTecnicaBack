@@ -1,9 +1,6 @@
 package com.tiffany.pruebatecnica.service;
 
-import com.tiffany.pruebatecnica.dto.AprobarPrestamoDto;
-import com.tiffany.pruebatecnica.dto.PrestamoDto;
-import com.tiffany.pruebatecnica.dto.RechazaPrestamoDto;
-import com.tiffany.pruebatecnica.dto.SolicitudPrestamoProjection;
+import com.tiffany.pruebatecnica.dto.*;
 import com.tiffany.pruebatecnica.modelo.Cliente;
 import com.tiffany.pruebatecnica.modelo.Prestamo;
 import com.tiffany.pruebatecnica.repository.PrestamoRepository;
@@ -33,6 +30,14 @@ public class PrestamoSrv {
 
     public List<SolicitudPrestamoProjection> ListaPrestamo(Integer idCliente) {
         return prestamoRepository.listaSolicitudPrestamo(idCliente);
+
+
+    }
+
+    public List<PrestamosEnProcesoProjection> obtenerPrestamosParaAprobacionRechazo() {
+
+
+        return prestamoRepository.listaSolicitudPrestamosEnProceso(Constantes.EN_PROCESO);
 
 
     }

@@ -4,6 +4,7 @@ import com.tiffany.pruebatecnica.dto.ClienteDto;
 import com.tiffany.pruebatecnica.dto.EmpleadoDto;
 import com.tiffany.pruebatecnica.service.UserClienteSrv;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
         UserClienteSrv userClienteSrv;
         @PostMapping(value="crear")
         @Operation(summary = "crea usuario tipo empleado",description = "crea el usuario del empleado")
-        public ResponseEntity<String> crearEmpleado(@RequestBody EmpleadoDto empleado) {
+        public ResponseEntity<String> crearEmpleado(@RequestBody @Valid EmpleadoDto empleado) {
             try {
                 userClienteSrv.GuardarEmpleado(empleado);
                 return ResponseEntity.ok("Usuario empleado creado correctamente");

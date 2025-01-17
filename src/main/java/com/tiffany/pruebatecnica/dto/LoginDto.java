@@ -6,8 +6,8 @@ import lombok.Data;
 @Data
 public class LoginDto {
 
-    @NotEmpty
+    @NotEmpty(message = "Ingrese un usuario válido")
     private String usuario;
-    @NotEmpty
+    @NotEmpty(message = "Ingrese una clave valida")
     private String contrasena;
 }

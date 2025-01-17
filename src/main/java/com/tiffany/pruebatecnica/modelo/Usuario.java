@@ -49,7 +49,7 @@ public class Usuario {
 
 
     public Usuario(String usernameUsuario, String passwordUsuario) {
-        this.usernameUsuario = usernameUsuario;
+        this.usernameUsuario = usernameUsuario.toLowerCase();
         this.passwordUsuario = passwordUsuario;
         this.fechaCreacion = Instant.now();
         this.usuarioAgrega = "log_app_ms_prestamo";

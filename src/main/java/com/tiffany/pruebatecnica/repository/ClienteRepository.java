@@ -12,7 +12,7 @@ public interface ClienteRepository extends CrudRepository<Cliente, Integer> {
 
     public boolean existsByCorreoElectronico(String correoElectronico);
 
-    @Query(value = "SELECT c.numero_telefono as numeroTelefono, c.correo_electronico as correoElectronico, c.direccion_cliente as direccionCliente, \n" +
+    @Query(value = "SELECT c.fecha_nacimiento as fechaNacimiento, c.id_cliente as idCliente, c.numero_telefono as numeroTelefono, c.correo_electronico as correoElectronico, c.direccion_cliente as direccionCliente, \n" +
             "c.numero_identificacion as numeroIdentificacion,\n" +
             "CONCAT(c.nombre_cliente, ' ', c.apellido_cliente) as informacion_cliente\n" +
             "FROM app_prestamo.clientes c ", nativeQuery = true)

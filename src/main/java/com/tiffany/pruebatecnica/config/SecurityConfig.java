@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).httpBasic(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(new AntPathRequestMatcher("/auth/login")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/clientes/v1/crear")).permitAll()
@@ -65,9 +66,9 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("clientes/v1/actualizar/**")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("clientes/v1/lista")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("clientes/v1/elimina/**")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("prestamo/v1/lista/en-proceso")).hasRole("ADMIN")
 
 
-                        .anyRequest().authenticated()
                 );
 
         //

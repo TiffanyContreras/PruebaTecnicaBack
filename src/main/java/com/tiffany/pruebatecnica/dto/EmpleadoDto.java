@@ -1,12 +1,16 @@
 package com.tiffany.pruebatecnica.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @NoArgsConstructor
 @Data
-public class EmpleadoDto extends UsuarioDto{
-        private String nombre;
-        private String apellido;
+public class EmpleadoDto extends UsuarioDto {
+    @NotEmpty(message = "El Nombre es requerido")
+    private String nombre;
+    @NotEmpty(message = "El Apellido es requerido")
+    private String apellido;
 
     public EmpleadoDto(String nombre, String apellido) {
         this.nombre = nombre;
