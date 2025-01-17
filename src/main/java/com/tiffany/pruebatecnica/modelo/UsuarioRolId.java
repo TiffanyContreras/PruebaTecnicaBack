@@ -19,6 +19,15 @@ public class UsuarioRolId implements java.io.Serializable {
     @Column(name = "id_rol", nullable = false)
     private Integer idRol;
 
+    public UsuarioRolId(Integer idUsuario, Integer idRol) {
+        this.idUsuario = idUsuario;
+        this.idRol = idRol;
+    }
+
+    public UsuarioRolId() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
