@@ -2,14 +2,18 @@ package com.tiffany.pruebatecnica.modelo;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "usuarios", schema = "app_prestamo")
 public class Usuario {
     @Id
@@ -39,10 +43,17 @@ public class Usuario {
     @Column(name = "usuario_modifica", length = 25)
     private String usuarioModifica;
 
+
+    @OneToMany(mappedBy = "idUsuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<UsuarioRol> roles = new HashSet<>();
+
+
     public Usuario(String usernameUsuario, String passwordUsuario) {
         this.usernameUsuario = usernameUsuario;
         this.passwordUsuario = passwordUsuario;
         this.fechaCreacion = Instant.now();
         this.usuarioAgrega = "log_app_ms_prestamo";
     }
+
+
 }
