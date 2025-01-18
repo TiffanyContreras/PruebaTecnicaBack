@@ -37,4 +37,8 @@ public class Pago {
         this.idPrestamo=prestamo;
 
     }
+
+    public Pago() {
+
+    }
 }

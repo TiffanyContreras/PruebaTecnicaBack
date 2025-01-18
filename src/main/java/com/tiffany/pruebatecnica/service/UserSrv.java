@@ -52,7 +52,7 @@ public class UserSrv implements UserDetailsService {
 
     public void verificarNombreDeUsuario(String nombreDeUsuario) {
         if (usuarioRepository.existsByUsernameUsuario(nombreDeUsuario)) {
-            throw new RuntimeException("El usuario no existe");
+            throw new RuntimeException("El usuario ya existe");
         }
 
 
