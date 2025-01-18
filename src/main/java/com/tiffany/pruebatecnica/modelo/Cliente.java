@@ -27,8 +27,6 @@ public class Cliente implements Serializable {
     private Integer id;
 
 
-
-
     @Nationalized
     @Column(name = "numero_identificacion", nullable = false, length = 13)
     private String numeroIdentificacion;
@@ -64,15 +62,15 @@ public class Cliente implements Serializable {
 
     public Cliente(Integer id, ClienteDto clienteDto) {
         this.id = id;
-       this.numeroIdentificacion = clienteDto.getNumeroIdentificacion();
-       this.nombreCliente = clienteDto.getNombreCliente();
-       this.apellidoCliente = clienteDto.getApellidoCliente();
-       this.fechaNacimiento = clienteDto.getFechaNacimiento();
-       this.numeroTelefono = clienteDto.getNumeroTelefono();
-       this.departamento = clienteDto.getDepartamento();
-       this.municipio = clienteDto.getMunicipio();
-       this.direccionCliente = clienteDto.getDireccionCliente();
-       this.correoElectronico = clienteDto.getCorreoElectronico();
+        this.numeroIdentificacion = clienteDto.getNumeroIdentificacion();
+        this.nombreCliente = clienteDto.getNombreCliente();
+        this.apellidoCliente = clienteDto.getApellidoCliente();
+        this.fechaNacimiento = clienteDto.getFechaNacimiento();
+        this.numeroTelefono = clienteDto.getNumeroTelefono();
+        this.departamento = 1;
+        this.municipio = 1;
+        this.direccionCliente = clienteDto.getDireccionCliente();
+        this.correoElectronico = clienteDto.getCorreoElectronico();
 
 
     }
