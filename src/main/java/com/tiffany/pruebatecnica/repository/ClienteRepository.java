@@ -14,7 +14,7 @@ public interface ClienteRepository extends CrudRepository<Cliente, Integer> {
 
     @Query(value = "SELECT c.fecha_nacimiento as fechaNacimiento, c.id_cliente as idCliente, c.numero_telefono as numeroTelefono, c.correo_electronico as correoElectronico, c.direccion_cliente as direccionCliente, \n" +
             "c.numero_identificacion as numeroIdentificacion,\n" +
-            "CONCAT(c.nombre_cliente, ' ', c.apellido_cliente) as informacion_cliente\n" +
+            "CONCAT(c.nombre_cliente, ' ', c.apellido_cliente) as informacion_cliente ,c.nombre_cliente as nombre, c.apellido_cliente as apellido " +
             "FROM app_prestamo.clientes c ", nativeQuery = true)
     public List <InformacionClienteProjection> listaClienteRegistrado ();
 

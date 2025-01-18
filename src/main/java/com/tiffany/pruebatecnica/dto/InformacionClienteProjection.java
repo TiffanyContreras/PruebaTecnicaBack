@@ -9,5 +9,7 @@ String getDireccionCliente();
 String getNumeroIdentificacion();
 String getInformacionCliente();
 String getFechaNacimiento();
+String getNombre();
+String getApellido();
 
 }
