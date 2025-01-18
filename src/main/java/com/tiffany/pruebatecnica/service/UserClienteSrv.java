@@ -17,6 +17,8 @@ public class UserClienteSrv {
 
     @Transactional (readOnly=false, rollbackFor=Exception.class)
     public void GuardarCliente(ClienteDto cliente) {
+
+
         Integer idCliente = userSrv.save(cliente);
         clienteSrv.save(cliente,idCliente);
 

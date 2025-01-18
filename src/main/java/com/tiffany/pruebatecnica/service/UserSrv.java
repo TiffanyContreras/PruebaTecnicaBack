@@ -28,10 +28,12 @@ public class UserSrv implements UserDetailsService {
 
     private final UserRepository usuarioRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
+    private final RoleUserSrv roleUserSrv;
 
-    public UserSrv(UserRepository usuarioRepository, PasswordEncoder bCryptPasswordEncoder) {
+    public UserSrv(UserRepository usuarioRepository, PasswordEncoder bCryptPasswordEncoder, RoleUserSrv roleUserSrv) {
         this.usuarioRepository = usuarioRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.roleUserSrv = roleUserSrv;
 
     }
 
@@ -43,6 +45,7 @@ public class UserSrv implements UserDetailsService {
         Usuario usuario = new Usuario(userDto.getUsername(), bCryptPasswordEncoder.encode(userDto.getPassword()));
 
         Usuario usuarioGuardar = usuarioRepository.save(usuario);
+        this.roleUserSrv.guardarRolCliente(usuarioGuardar);
         this.usuarioRepository.flush();
         return usuarioGuardar.getId();
     }
@@ -60,6 +63,7 @@ public class UserSrv implements UserDetailsService {
         verificarNombreDeUsuario(userDto.getUsername());
         Usuario usuario = new Usuario(userDto.getUsername(), userDto.getPassword());
         Usuario usuarioGuardar = usuarioRepository.save(usuario);
+        this.roleUserSrv.guardarRolAdmin(usuarioGuardar);
         this.usuarioRepository.flush();
         return usuarioGuardar.getId();
     }

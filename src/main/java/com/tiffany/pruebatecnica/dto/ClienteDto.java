@@ -25,12 +25,11 @@ public class ClienteDto extends UsuarioDto {
     @Email(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "El correo ingresado no es valido")
     @NotEmpty(message = "El correo no puede ser nulo o vacio")
     private String correoElectronico;
-    @Min(value = 8, message = "El telefono no puede ser menor de 8 digitos")
-    @Max(value = 8, message = "El telefono no pude ser mayor a 8 digitos")
+    @Size(min = 8, max = 8, message = "El numero de telefono debe ser valido")
     private String numeroTelefono;
     private Integer departamento;
     private Integer municipio;
-    @Max(value = 500, message = "La direccion no puede ser mayor a 500 caracteres")
+    @Size(max = 500, message = "El numero de telefono debe ser valido")
     private String direccionCliente;
 
     public ClienteDto(String username, String password, String numeroIdentificacion, String nombreCliente, String apellidoCliente, Date fechaNacimiento, String correoElectronico, Integer departamento, String numeroTelefono, Integer municipio, String direccionCliente) {

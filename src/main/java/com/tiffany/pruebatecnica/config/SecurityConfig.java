@@ -15,6 +15,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.Collections;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfig {
@@ -48,6 +56,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtTokenFilter jwtTokenFilter) throws Exception {
         http
+                .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -60,7 +69,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
                         //  rutas por rol
 
-                        .requestMatchers(new AntPathRequestMatcher("clientes/v1/crear")).hasAnyRole("USER", "ADMIN")
+
                         .requestMatchers(new AntPathRequestMatcher("empleados/v1/crear")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("prestamo/v1/aprobar")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("clientes/v1/actualizar/**")).hasRole("ADMIN")
@@ -75,5 +84,18 @@ public class SecurityConfig {
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Collections.singletonList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization")); //
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
