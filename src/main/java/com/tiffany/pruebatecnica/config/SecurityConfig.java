@@ -71,21 +71,23 @@ public class SecurityConfig {
                         })
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(new AntPathRequestMatcher("/auth/login")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/clientes/v1/crear")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
+                                .anyRequest().permitAll()
+                               /* .requestMatchers(new AntPathRequestMatcher("/auth/login")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/clientes/v1/crear")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
+                                .anyRequest().authenticated() */
                         //  rutas por rol
 
 
-                        .requestMatchers(new AntPathRequestMatcher("/empleados/v1/crear")).hasRole("ADMIN")
+                     /*   .requestMatchers(new AntPathRequestMatcher("/empleados/v1/crear")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/prestamo/v1/aprobar")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/clientes/v1/actualizar/**")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/clientes/v1/lista")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/clientes/v1/elimina/**")).hasRole("ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/prestamo/v1/lista/en-proceso")).hasRole("ADMIN")
 
-
+*/
                 );
 
         //
