@@ -7,12 +7,16 @@ import com.tiffany.pruebatecnica.modelo.Usuario;
 import com.tiffany.pruebatecnica.modelo.UsuarioRol;
 import com.tiffany.pruebatecnica.repository.RoleRepository;
 import com.tiffany.pruebatecnica.repository.RoleUserRepository;
+import com.tiffany.pruebatecnica.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
+
+import java.util.List;
+
 
 @Slf4j
 @Service
@@ -22,6 +26,9 @@ public class RoleUserSrv {
     RoleRepository roleRepository;
     @Autowired
     RoleUserRepository roleUserRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void guardarRolCliente(Usuario usuario) {
@@ -49,6 +56,12 @@ public class RoleUserSrv {
         }
 
         this.roleUserRepository.save(new UsuarioRol(usuario, rolUser));
+
+    }
+
+    public List<String> obtenerNombreRoles(String userName) {
+
+        return this.userRepository.obtenerRolesByUserName(userName.trim());
 
     }
 

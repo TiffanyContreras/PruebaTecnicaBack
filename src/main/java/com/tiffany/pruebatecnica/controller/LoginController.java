@@ -3,6 +3,7 @@ package com.tiffany.pruebatecnica.controller;
 
 import com.tiffany.pruebatecnica.config.JwtProvider;
 import com.tiffany.pruebatecnica.dto.LoginDto;
+import com.tiffany.pruebatecnica.service.RoleUserSrv;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +34,9 @@ public class LoginController {
     @Autowired
     JwtProvider jwtProvider;
 
+    @Autowired
+    RoleUserSrv roleUserSrv;
+
     @PostMapping("login")
     @Operation(summary = "Incicio de sesion", description = "Permite el inicio de sesion a los usuarios dentro de la aplicacion")
     public String login(@RequestBody @Valid LoginDto loginDto) {
@@ -41,9 +46,9 @@ public class LoginController {
 
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return jwtProvider.generateToken(userDetails.getUsername(), userDetails.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.joining(",")));
+            List<String> roles = this.roleUserSrv.obtenerNombreRoles(userDetails.getUsername());
+            log.info("detalle de roles " + roles);
+            return jwtProvider.generateToken(userDetails.getUsername(), roles.stream().map(s -> "ROLE_" + s).collect(Collectors.joining(",")));
         } catch (Exception e) {
             log.error("error al iniciar sesion", e);
             throw new RuntimeException("No es Posible Iniciar sesion");

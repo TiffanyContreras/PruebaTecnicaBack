@@ -2,6 +2,7 @@ package com.tiffany.pruebatecnica.config;
 
 
 import com.tiffany.pruebatecnica.service.UserSrv;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -61,7 +62,14 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 ).httpBasic(AbstractHttpConfigurer::disable)
-
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
+                        })
+                )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(new AntPathRequestMatcher("/auth/login")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/clientes/v1/crear")).permitAll()
@@ -70,12 +78,12 @@ public class SecurityConfig {
                         //  rutas por rol
 
 
-                        .requestMatchers(new AntPathRequestMatcher("empleados/v1/crear")).hasRole("ADMIN")
-                        .requestMatchers(new AntPathRequestMatcher("prestamo/v1/aprobar")).hasRole("ADMIN")
-                        .requestMatchers(new AntPathRequestMatcher("clientes/v1/actualizar/**")).hasRole("ADMIN")
-                        .requestMatchers(new AntPathRequestMatcher("clientes/v1/lista")).hasRole("ADMIN")
-                        .requestMatchers(new AntPathRequestMatcher("clientes/v1/elimina/**")).hasRole("ADMIN")
-                        .requestMatchers(new AntPathRequestMatcher("prestamo/v1/lista/en-proceso")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/empleados/v1/crear")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/prestamo/v1/aprobar")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/clientes/v1/actualizar/**")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/clientes/v1/lista")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/clientes/v1/elimina/**")).hasRole("ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/prestamo/v1/lista/en-proceso")).hasRole("ADMIN")
 
 
                 );
