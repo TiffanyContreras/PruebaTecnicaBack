@@ -16,70 +16,69 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class ClienteSrv {
-@Autowired
+    @Autowired
     ClienteRepository clienteRepository;
 
-@Transactional (readOnly = false, rollbackFor = Exception.class)
-public void save(ClienteDto clienteDto, int idUsuario) {
-    log.info("guardando cliente en bd");
-    verificarDocumentoDeIdentificacionEnUso(clienteDto.getNumeroIdentificacion());
-    correoElectronicoEnUso(clienteDto.getCorreoElectronico());
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void save(ClienteDto clienteDto, int idUsuario) {
+        log.info("guardando cliente en bd");
+        verificarDocumentoDeIdentificacionEnUso(clienteDto.getNumeroIdentificacion());
+        correoElectronicoEnUso(clienteDto.getCorreoElectronico());
 
- Cliente cliente = new Cliente(idUsuario, clienteDto);
- clienteRepository.save(cliente);
+        Cliente cliente = new Cliente(idUsuario, clienteDto);
+        clienteRepository.save(cliente);
 
-}
-
-
-
-
-public void verificarDocumentoDeIdentificacionEnUso(String documentoDeIdentificacion) {
-    if (clienteRepository.existsByNumeroIdentificacion(documentoDeIdentificacion)) {
-        throw new RuntimeException("El documento de identificacion ya existe");
     }
 
 
-}
+    public void verificarDocumentoDeIdentificacionEnUso(String documentoDeIdentificacion) {
+        if (clienteRepository.existsByNumeroIdentificacion(documentoDeIdentificacion)) {
+            throw new RuntimeException("El documento de identificacion ya existe");
+        }
 
-public void correoElectronicoEnUso(String correoElectronico) {
-    if (clienteRepository.existsByCorreoElectronico(correoElectronico)) {
-        throw new RuntimeException("El correo de electronico ya existe");
+
     }
 
-
-}
-public List<InformacionClienteProjection> listarClientes() {
-    return clienteRepository.listaClienteRegistrado();
-
-}
-@Transactional (readOnly = false, rollbackFor = Exception.class)
-public void ActualizarCliente(ClienteDto clienteDto, Integer id) {
-    Cliente cliente = clienteRepository.findById(id).get();
-    cliente.setApellidoCliente(clienteDto.getApellidoCliente());
-    cliente.setNombreCliente(clienteDto.getNombreCliente());
-    cliente.setNumeroIdentificacion(clienteDto.getNumeroIdentificacion());
-    cliente.setNumeroTelefono(clienteDto.getNumeroTelefono());
-    cliente.setDireccionCliente(clienteDto.getDireccionCliente());
-    cliente.setCorreoElectronico(clienteDto.getCorreoElectronico());
-    cliente.setMunicipio(clienteDto.getMunicipio());
-    cliente.setDepartamento(clienteDto.getDepartamento());
+    public void correoElectronicoEnUso(String correoElectronico) {
+        if (clienteRepository.existsByCorreoElectronico(correoElectronico)) {
+            throw new RuntimeException("El correo de electronico ya existe");
+        }
 
 
-
-}
-
-public void eliminarCliente(Integer id) {
-    clienteRepository.deleteById(id);
-
-}
-
-public Cliente buscarClientePorId(Integer id) {
-    Optional<Cliente> cliente = clienteRepository.findById(id);
-    if(cliente.isPresent()) {
-        return cliente.get();
-
-    }else {
-        throw new RuntimeException("El cliente no existe");
     }
-}
+
+    public List<InformacionClienteProjection> listarClientes() {
+        return clienteRepository.listaClienteRegistrado();
+
+    }
+
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public void ActualizarCliente(ClienteDto clienteDto, Integer id) {
+        Cliente cliente = clienteRepository.findById(id).get();
+        cliente.setApellidoCliente(clienteDto.getApellidoCliente());
+        cliente.setNombreCliente(clienteDto.getNombreCliente());
+        cliente.setNumeroIdentificacion(clienteDto.getNumeroIdentificacion());
+        cliente.setNumeroTelefono(clienteDto.getNumeroTelefono());
+        cliente.setDireccionCliente(clienteDto.getDireccionCliente());
+        cliente.setCorreoElectronico(clienteDto.getCorreoElectronico());
+        //cliente.setMunicipio(clienteDto.getMunicipio());
+        //cliente.setDepartamento(clienteDto.getDepartamento());
+
+
+    }
+
+    public void eliminarCliente(Integer id) {
+        clienteRepository.deleteById(id);
+
+    }
+
+    public Cliente buscarClientePorId(Integer id) {
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+        if (cliente.isPresent()) {
+            return cliente.get();
+
+        } else {
+            throw new RuntimeException("El cliente no existe");
+        }
+    }
 }
