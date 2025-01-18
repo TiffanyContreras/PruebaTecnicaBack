@@ -14,7 +14,8 @@ public interface UserRepository  extends JpaRepository<Usuario, Integer> {
   Optional<Usuario> findByUsernameUsuario(String username);
 
   @Query(value = "select r.nombre_rol   from app_prestamo.usuarios u   \n" +
-          "join app_prestamo.roles r on r.id_rol =u.id_usuario \n" +
+          "join app_prestamo.usuario_rol ur on ur.id_usuario =u.id_usuario \n" +
+          "join app_prestamo.roles r on r.id_rol =ur.id_rol \n" +
           "where u.username_usuario =:name",nativeQuery = true)
   List<String> obtenerRolesByUserName(@Param("name") String userName);
 }
