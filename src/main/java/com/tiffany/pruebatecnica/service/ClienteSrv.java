@@ -4,6 +4,7 @@ import com.tiffany.pruebatecnica.dto.ClienteDto;
 import com.tiffany.pruebatecnica.dto.InformacionClienteProjection;
 import com.tiffany.pruebatecnica.modelo.Cliente;
 import com.tiffany.pruebatecnica.repository.ClienteRepository;
+import com.tiffany.pruebatecnica.repository.PrestamoRepository;
 import jakarta.persistence.Id;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import java.util.Optional;
 public class ClienteSrv {
     @Autowired
     ClienteRepository clienteRepository;
+
+    @Autowired
+    private PrestamoRepository prestamoRepository;
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void save(ClienteDto clienteDto, int idUsuario) {
@@ -67,8 +71,11 @@ public class ClienteSrv {
 
     }
 
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void eliminarCliente(Integer id) {
         clienteRepository.deleteById(id);
+        log.info("Cantidad de solicitudes de prestamos eliminados {} para el cliente {}", prestamoRepository.eliminarSolicitudPretamoNoAprobadas(id), id);
+        ;
 
     }
 
