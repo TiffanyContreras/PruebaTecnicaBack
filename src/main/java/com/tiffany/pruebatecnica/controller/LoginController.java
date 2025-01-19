@@ -45,7 +45,9 @@ public class LoginController {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsuario(), loginDto.getContrasena()));
 
 
+
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
             List<String> roles = this.roleUserSrv.obtenerNombreRoles(userDetails.getUsername());
             log.info("detalle de roles " + roles);
             return jwtProvider.generateToken(userDetails.getUsername(), roles.stream().map(s -> "ROLE_" + s).collect(Collectors.joining(",")));
